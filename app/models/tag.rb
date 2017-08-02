@@ -10,4 +10,5 @@
 
 class Tag < ApplicationRecord
   validates :name, :uniqueness => :true
+  has_many :taggings, :class_name => "Tagging", :foreign_key => "tag_id"
 end
