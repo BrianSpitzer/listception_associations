@@ -12,10 +12,10 @@
       <dd><%= @card.description %></dd>
 
       <dt>List</dt>
-      <dd><%= @card.list_id %></dd>
+      <dd><%= @card.list.title %></dd>
 
-      <dt>Position order</dt>
-      <dd><%= @card.position_order %></dd>
+      <!--<dt>Position order</dt>-->
+      <!--<dd><%= @card.position_order %></dd>-->
 
     </dl>
 
@@ -32,3 +32,15 @@
     </div>
   </div>
 </div>
+
+<h3> Notes </h3>
+<ol>
+  <% @card.notes.each do |note| %>
+    <li>
+      <%= note.body %> 
+    </li>
+  <% end %>
+  <li>
+    New one goes here  
+  </li>
+</ol>

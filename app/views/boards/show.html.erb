@@ -1,28 +1,115 @@
 <div class="page-header">
-  <h3>Board #<%= @board.id %></h3>
-</div>
-
-<div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>Title</dt>
-      <dd><%= @board.title %></dd>
-
-      <dt>Description</dt>
-      <dd><%= @board.description %></dd>
-
-    </dl>
-
-    <div class="btn-group btn-group-justified">
+  <h1>
+    Board: <%= @board.title %>
+  
+    <small>
+      <%= @board.description %>
+      
       <a href="/boards" class="btn btn-default">
         Back
       </a>
+      
       <a href="/boards/<%= @board.id %>/edit" class="btn btn-default">
         Edit
       </a>
       <a href="/delete_board/<%= @board.id %>" class="btn btn-default" rel="nofollow">
         Delete
       </a>
+    </small>
+
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-10 col-md-offset-1 mb-2">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2>Add a new list</h2>
+        <form action="/create_list" method="post">
+          
+        <div class="form-group">
+            <label for="title" class="control-label">
+              Title
+            </label>
+            
+            <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+        </div>  
+        
+        <input type="hidden" id="board_id" name="board_id" value="<%= @board.id %>">
+        
+        <button class="btn btn-default">
+          Create List
+        </button>
+        
+        </form>
+      </div>
     </div>
   </div>
 </div>
+
+<% @board.lists.each do |list| %>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 mb-2">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h2>
+            <%= list.title %>
+          </h2>
+        </div>
+        
+        <% list.cards.each do |card| %>
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2 mb-2">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">
+                    <a href="/cards/<%= card.id %>">
+                      <%= card.title %>
+                    </a>
+                  </h3>
+                </div>
+                <div class="panel-body">
+                  <div class="lead">
+                    <%= card.description %>
+                  </div>
+                  <% card.taggings.each do |tagging| %>
+                    <a href="/tags/<%= tagging.tag.id %>" class="label label-default">
+                      <%= tagging.tag.name %>
+                    </a>
+                    &nbsp;
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 mb-2">
+            <form action="/create_card" method="post">
+              <div class="form-group">
+                  <label for="title" class="control-label">
+                    Title
+                  </label>
+                  
+                  <input type="text" id="title" name="title" placeholder="Title" class="form-control">
+              </div>  
+              <div class="form-group">
+                  <label for="description" class="control-label">
+                    Description
+                  </label>
+                  
+                  <input type="text" id="description" name="description" placeholder="Description" class="form-control">
+              </div>  
+              <input type="hidden" id="list_id" name="list_id" value="<%= list.id %>">
+              
+              <button class="btn btn-default">
+                Create Card
+              </button>
+          </form>
+        
+      </div>  
+        
+      </div>
+    </div>
+  </div>
+<% end %>
